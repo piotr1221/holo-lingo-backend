@@ -5,10 +5,10 @@ from src.core.settings import settings
 def init_database():
     connect(
         db=settings.db_name,
-        username=settings.db_user,
-        password=settings.db_password,
-        host=settings.db_host,
-        port=settings.db_port,
+        username='root',
+        password='password',
+        host=settings.host,
+        port=settings.port,
     )
     pass
 

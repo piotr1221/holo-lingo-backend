@@ -1,9 +1,9 @@
 from typing import Union
 from fastapi import FastAPI
-from core.schemas.AppUser import AppUser
-from core.db.db import init_database, shutdown_database
-from core.schemas.AppUser import AppUser
-from core.settings import settings
+
+from src.core.db.db import init_database, shutdown_database
+from src.core.schemas.AppUser import AppUser
+from src.core.settings import settings
 
 
 app = FastAPI()
