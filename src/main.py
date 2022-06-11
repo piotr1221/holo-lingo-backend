@@ -16,8 +16,8 @@ async def init_config():
 async def shutdown():
     shutdown_database()
 
-@app.get()
-def index()
+@app.get('/')
+def index():
     return {
         'api_version': 'v1'
     }
