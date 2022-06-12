@@ -18,13 +18,13 @@ async def shutdown():
     shutdown_database()
 
 @app.get('/')
-def index():
+async def index():
     return {
         'api_version': 'v1'
     }
 
 @app.get('/info')
-def info():
+async def info():
     return {
         'app_name': settings.app_name
     }
