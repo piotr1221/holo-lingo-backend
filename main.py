@@ -9,13 +9,13 @@ from src.core.settings import settings
 
 app = FastAPI()
 
-@app.on_event("startup")
-async def init_config():
-    init_database()
+# @app.on_event("startup")
+# async def init_config():
+#     init_database()
 
-@app.on_event("shutdown")
-async def shutdown():
-    shutdown_database()
+# @app.on_event("shutdown")
+# async def shutdown():
+#     shutdown_database()
 
 @app.get('/')
 async def index():
