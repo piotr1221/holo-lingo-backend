@@ -6,6 +6,10 @@ from src.core.db.db import init_database, shutdown_database
 from src.core.schemas.AppUser import AppUser
 from src.core.settings import settings
 
+import json
+
+
+from src.api.v1.contracts.register import UserPost
 
 app = FastAPI()
 
@@ -28,5 +32,17 @@ async def info():
     return {
         'app_name': settings.app_name
     }
+
+@app.post('/user')
+def create_user(user: UserPost):
+    new_user = AppUser(name=user.name, password=user.password)
+    new_user.save()
+    return {
+        'message': "succesful operation"
+    }
+
+@app.get('/user')
+def get_users():
+    return json.loads(AppUser.objects().to_json())
 
 handler = Mangum(app=app)
