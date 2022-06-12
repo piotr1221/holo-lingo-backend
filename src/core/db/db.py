@@ -1,6 +1,6 @@
 from mongoengine import connect, disconnect
-from src.core.schemas.AppUser import AppUser
-from src.core.settings import settings
+from ..schemas.AppUser import AppUser
+from ..settings import settings
 
 def init_database():
     connect(
