@@ -62,7 +62,7 @@ jobs:
           cd ./venv/lib/python3.9/site-packages
           zip -r9 ../../../../api.zip .
       - name: Add API files to Zip file
-        run: cd ./src && zip -g ../api.zip -r .
+        run: zip -rv api.zip main.py && zip -ur api.zip src
       - name: Upload zip file artifact
         uses: actions/upload-artifact@v2
         with:
@@ -72,7 +72,7 @@ jobs:
   CD:
     runs-on: ubuntu-latest
     needs: [CI]
-    if: github.ref == 'refs/heads/edwin-deploy' && github.event_name == 'push'
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     steps:
       - name: Install AWS CLI
         uses: unfor19/install-aws-cli-action@v1
