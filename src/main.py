@@ -1,5 +1,6 @@
 from typing import Union
 from fastapi import FastAPI
+from mangum import Mangum
 
 from src.core.db.db import init_database, shutdown_database
 from src.core.schemas.AppUser import AppUser
@@ -27,3 +28,5 @@ def info():
     return {
         'app_name': settings.app_name
     }
+
+handler = Mangum(app=app)
