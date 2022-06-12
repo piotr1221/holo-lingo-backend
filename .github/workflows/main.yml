@@ -46,23 +46,24 @@ jobs:
         run: python -m venv venv && source venv/bin/activate && pip3 install -r requirements.txt
         if: steps.cache-venv.outputs.cache-hit != 'true'
 
-      - name: Run Tests   
-        # Note that you have to activate the virtualenv in every step
-        # because GitHub actions doesn't preserve the environment   
-        env:
-          APP_NAME: ${{ secrets.APP_NAME }}
-          DB_NAME: ${{ secrets.DB_NAME }}
-          DB_PORT: ${{ secrets.DB_PORT }}
-          DB_HOST: ${{ secrets.DB_HOST }}
-          DB_USER: ${{ secrets.DB_USER }}
-          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-        run: . venv/bin/activate && pytest
+      # - name: Run Tests   
+      #   # Note that you have to activate the virtualenv in every step
+      #   # because GitHub actions doesn't preserve the environment   
+      #   env:
+      #     APP_NAME: ${{ secrets.APP_NAME }}
+      #     DB_NAME: ${{ secrets.DB_NAME }}
+      #     DB_PORT: ${{ secrets.DB_PORT }}
+      #     DB_HOST: ${{ secrets.DB_HOST }}
+      #     DB_USER: ${{ secrets.DB_USER }}
+      #     DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      #   run: . venv/bin/activate && pytest
       - name: Create archive of dependencies
         run: |
           cd ./venv/lib/python3.9/site-packages
           zip -r9 ../../../../api.zip .
       - name: Add API files to Zip file
-        run: zip -rv api.zip main.py && zip -ur api.zip src
+        # run: zip -rv api.zip main.py && zip -ur api.zip src
+        run: cd ./src && zip -g ../api.zip -r .
       - name: Upload zip file artifact
         uses: actions/upload-artifact@v2
         with:
