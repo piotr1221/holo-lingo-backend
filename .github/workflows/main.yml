@@ -5,7 +5,7 @@ on:
   push:
     branches: 
       # Push events on main branch
-      - edwin-deploy 
+      - main 
 
 # The Job defines a series of steps that execute on the same runner.
 jobs:
@@ -62,13 +62,8 @@ jobs:
           cd ./venv/lib/python3.9/site-packages
           zip -r9 ../../../../api.zip .
       - name: Add API files to Zip file
-        #
-        # Uncomment only one run command
-        #
         # Zips the whole src folder and its content. main.py must outside at root level
         run: zip -rv api.zip main.py && zip -ur api.zip src
-        # Zips only the content of src folder. main.py must be inside the folder
-        # run: cd ./src && zip -g ../api.zip -r .
       - name: Upload zip file artifact
         uses: actions/upload-artifact@v2
         with:
@@ -78,7 +73,7 @@ jobs:
   CD:
     runs-on: ubuntu-latest
     needs: [CI]
-    if: github.ref == 'refs/heads/edwin-deploy' && github.event_name == 'push'
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     steps:
       - name: Install AWS CLI
         uses: unfor19/install-aws-cli-action@v1
