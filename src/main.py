@@ -2,7 +2,7 @@ from typing import Union
 from fastapi import FastAPI
 from mangum import Mangum
 
-from core.db.db import init_database, shutdown_database
+# from core.db.db import init_database, shutdown_database
 from core.schemas.AppUser import AppUser
 from core.settings import settings
 
