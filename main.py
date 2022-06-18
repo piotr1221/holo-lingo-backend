@@ -3,15 +3,14 @@ from fastapi import FastAPI
 from mangum import Mangum
 
 from src.core.db.db import init_database, shutdown_database
-from src.core.schemas.AppUser import AppUser
-from src.core.settings import settings
 
-import json
-
-
-from src.api.v1.contracts.register import UserPost
+from src.api.v1.auth import auth_router
+from src.api.v1.info import info_router
 
 app = FastAPI()
+
+app.include_router(auth_router)
+app.include_router(info_router)
 
 @app.on_event("startup")
 async def init_config():
@@ -20,36 +19,5 @@ async def init_config():
 @app.on_event("shutdown")
 async def shutdown():
     shutdown_database()
-
-@app.get('/')
-async def index():
-    return {
-        'api_version': 'v1'
-    }
-
-@app.get('/info')
-async def info():
-    return {
-        'app_name': settings.app_name
-    }
-
-@app.post('/register')
-def register_user(user: UserPost):
-    new_user = AppUser(name=user.name, password=user.password)
-    new_user.save()
-    return {
-        'message': "user registered successfully"
-    }
-
-@app.get('/user')
-def get_users():
-    return json.loads(AppUser.objects().to_json())
-
-
-@app.post('/login')
-def authenticate_user():
-    return{
-        'message':"user authenticated successfully"
-    }
 
 handler = Mangum(app=app)
