@@ -33,6 +33,9 @@ async def info():
         'app_name': settings.app_name
     }
 
+########################## ENTIDAD USUARIO #############################
+
+#CREATE
 @app.post('/user')
 def create_user(user: UserPost):
     new_user = AppUser(name=user.name, password=user.password)
@@ -41,8 +44,15 @@ def create_user(user: UserPost):
         'message': "succesful operation"
     }
 
+#READ
 @app.get('/user')
 def get_users():
     return json.loads(AppUser.objects().to_json())
+
+@app.get('/user/info/{user_id}')
+def get_user(user_id: str):
+    return json.loads(AppUser.objects(id=user_id).first().to_json())
+
+########################################################################
 
 handler = Mangum(app=app)
