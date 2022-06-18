@@ -12,6 +12,16 @@ def search_lesson(term: str):
     return json.loads(Lesson.objects(title__icontains=term).to_json())
 
 
+@lessons_router.get('/lessons')
+def get_lessons():
+    return json.loads(Lesson.objects().to_json())
+
+
+@lessons_router.get('/lessons/{lesson_id}')
+def get_lesson_by_id(lesson_id: str):
+    return json.loads(Lesson.objects(id=lesson_id).first().to_json())
+
+
 @lessons_router.post('/lessons/create')
 async def post_lessons(lesson: LessonPost):
     print(lesson)
