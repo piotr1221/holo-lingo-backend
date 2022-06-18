@@ -45,4 +45,18 @@ def create_user(user: UserPost):
 def get_users():
     return json.loads(AppUser.objects().to_json())
 
+@app.get('/user/info')
+def get_user_info():
+    return {
+        'message': "User info"
+    }
+
+@app.get('/lessons')
+def get_lessons():
+    return {
+        'message': "Get all lessons"
+    }
+
+
+
 handler = Mangum(app=app)
