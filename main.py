@@ -53,6 +53,17 @@ def get_users():
 def get_user(user_id: str):
     return json.loads(AppUser.objects(id=user_id).first().to_json())
 
+#UPDATE
+@app.patch('/user/{user_id}', response_model=UserPost)
+def update_users(user_id: str, user: UserPost):
+    stored_user_data = json.loads(AppUser.objects(id=user_id).first().to_json())
+    stored_user_model = UserPost(**stored_user_data)
+    update_data = user.dict(exclude_unset=True)
+    updated_item = stored_user_model.copy(update=update_data)
+    stored_user_model.save()
+    print("\n\n",update_data,"\n\n")
+    return updated_item
+
 ########################################################################
 
 handler = Mangum(app=app)
