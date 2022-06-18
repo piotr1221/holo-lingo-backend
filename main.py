@@ -45,4 +45,17 @@ def create_user(user: UserPost):
 def get_users():
     return json.loads(AppUser.objects().to_json())
 
+
+@app.post('/register')
+def register_user():
+    return{
+        'message':"user register operation"
+    }
+
+@app.post('/login')
+def register_user():
+    return{
+        'message':"user login operation"
+    }
+
 handler = Mangum(app=app)
