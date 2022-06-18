@@ -33,12 +33,12 @@ async def info():
         'app_name': settings.app_name
     }
 
-@app.post('/user')
-def create_user(user: UserPost):
+@app.post('/register')
+def register_user(user: UserPost):
     new_user = AppUser(name=user.name, password=user.password)
     new_user.save()
     return {
-        'message': "succesful operation"
+        'message': "user registered successfully"
     }
 
 @app.get('/user')
@@ -46,16 +46,10 @@ def get_users():
     return json.loads(AppUser.objects().to_json())
 
 
-@app.post('/register')
-def register_user():
-    return{
-        'message':"user register operation"
-    }
-
 @app.post('/login')
-def register_user():
+def authenticate_user():
     return{
-        'message':"user login operation"
+        'message':"user authenticated successfully"
     }
 
 handler = Mangum(app=app)
