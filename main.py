@@ -30,13 +30,13 @@ async def index():
         'api_version': 'v1'
     }
 
-@app.on_event("startup")
-async def init_config():
-    init_database()
+# @app.on_event("startup")
+# async def init_config():
+#     init_database()
 
 
-@app.on_event("shutdown")
-async def shutdown():
-    shutdown_database()
+# @app.on_event("shutdown")
+# async def shutdown():
+#     shutdown_database()
 
 handler = Mangum(app=app)
