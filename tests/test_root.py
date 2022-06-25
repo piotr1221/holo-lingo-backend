@@ -4,6 +4,6 @@ from main import app
 client = TestClient(app)
 
 def test_root():
-    res = client.get('/')
+    res = client.get('/v1/')
     assert res.status_code  == 200
     assert res.json() == {'api_version': 'v1'}
