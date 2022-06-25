@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Body
 from src.core.settings import settings
 from src.core.schemas.AppUser import AppUser
 from src.api.v1.contracts.auth import ClassicUserPost, ModifyUserPost
@@ -21,13 +21,14 @@ async def login_via_email(user: ClassicUserPost):
 def get_users():
     return json.loads(AppUser.objects().to_json())
 
-@auth_router.get('/user/info/{user_id}')
-def get_user(user_id: str):
+@auth_router.get('/user/info')
+def get_user(payload: dict=Body(...)):
+    user_id = payload["id"]
     return json.loads(AppUser.objects(id=user_id).first().to_json())
 
-@auth_router.patch('/user/update/{user_id}', response_model=ModifyUserPost)
-def update_users(user_id: str, user: ModifyUserPost):
-    modified_user = AppUser.objects(id=user_id).first()
+@auth_router.patch('/user/edit')
+def update_users(user: ModifyUserPost):
+    modified_user = AppUser.objects(id=user.id).first()
     modified_user.name = user.name
     modified_user.save()
     user_json = json.loads(modified_user.to_json())
