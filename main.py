@@ -1,18 +1,11 @@
-from fastapi import FastAPI
 from mangum import Mangum
+from fastapi import FastAPI
 
 app = FastAPI()
 
-@app.get('/v1/info')
-async def info():
-    return {
-        'app_name': 'aaaa'
-    }
 
-@app.get('/')
-async def index():
-    return {
-        'api_version': 'v1'
-    }
+@app.get("/")
+async def root():
+    return {"message": "Hello World"}
 
 handler = Mangum(app=app)
