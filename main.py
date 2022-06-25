@@ -24,6 +24,12 @@ async def info():
         'app_name': settings.app_name
     }
 
+@info_router.get('/')
+async def index():
+    return {
+        'api_version': 'v1'
+    }
+
 @app.on_event("startup")
 async def init_config():
     init_database()
