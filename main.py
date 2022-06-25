@@ -19,13 +19,13 @@ app = FastAPI()
 
 
 @app.get('/v1/info')
-async def info():
+def info():
     return {
         'app_name': settings.app_name
     }
 
 @app.get('/')
-async def index():
+def index():
     return {
         'api_version': 'v1'
     }
