@@ -63,7 +63,7 @@ jobs:
           zip -r9 ../../../../api2.zip .
       - name: Add API files to Zip file
         # Zips the whole src folder and its content. main.py must outside at root level
-        run: zip -rv api2.zip main.py && zip -ur api2.zip src
+        run: zip -rv api2.zip main.py
       - name: Upload zip file artifact
         uses: actions/upload-artifact@v2
         with:
