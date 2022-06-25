@@ -11,7 +11,7 @@ from src.api.v1.lessons import lessons_router
 
 app = FastAPI()
 
-app.add_middleware(SessionMiddleware, secret_key="some-random", https_only=True)
+# app.add_middleware(SessionMiddleware, secret_key="some-random", https_only=True)
 
 app.include_router(auth_router)
 app.include_router(info_router)
