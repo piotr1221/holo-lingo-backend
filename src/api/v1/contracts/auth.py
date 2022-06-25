@@ -6,3 +6,6 @@ class ClassicUserPost(BaseModel):
     name: str
     password: str
     email: str
+
+class ModifyUserPost(BaseModel):
+    name: str
