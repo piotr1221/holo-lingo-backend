@@ -9,7 +9,7 @@ from src.core.settings import settings
 import json
 
 
-from src.api.v1.contracts.register import UserPost
+from src.api.v1.contracts.register import UserPost, UserName
 
 app = FastAPI()
 
@@ -54,15 +54,13 @@ def get_user(user_id: str):
     return json.loads(AppUser.objects(id=user_id).first().to_json())
 
 #UPDATE
-@app.patch('/user/{user_id}', response_model=UserPost)
-def update_users(user_id: str, user: UserPost):
-    stored_user_data = json.loads(AppUser.objects(id=user_id).first().to_json())
-    stored_user_model = UserPost(**stored_user_data)
-    update_data = user.dict(exclude_unset=True)
-    updated_item = stored_user_model.copy(update=update_data)
-    stored_user_model.save()
-    print("\n\n",update_data,"\n\n")
-    return updated_item
+@app.patch('/user/{user_id}', response_model=UserName)
+def update_users(user_id: str, user: UserName):
+    modified_user = AppUser.objects(id=user_id).first()
+    modified_user.update(name=user.name)
+    modified_user.save()
+    user_json = json.loads(modified_user.to_json())
+    return user_json
 
 ########################################################################
 
