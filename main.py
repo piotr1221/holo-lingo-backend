@@ -13,9 +13,9 @@ app = FastAPI()
 
 # app.add_middleware(SessionMiddleware, secret_key="some-random", https_only=True)
 
-app.include_router(auth_router)
-app.include_router(info_router)
-app.include_router(lessons_router)
+# app.include_router(auth_router)
+# app.include_router(info_router)
+# app.include_router(lessons_router)
 
 
 @info_router.get('/v1/info')
