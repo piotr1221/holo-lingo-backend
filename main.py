@@ -17,19 +17,6 @@ app.include_router(auth_router)
 app.include_router(info_router)
 app.include_router(lessons_router)
 
-
-@app.get('/v1/info')
-async def info():
-    return {
-        'app_name': settings.app_name
-    }
-
-@app.get('/')
-async def index():
-    return {
-        'api_version': 'v1'
-    }
-
 @app.on_event("startup")
 async def init_config():
     init_database()
