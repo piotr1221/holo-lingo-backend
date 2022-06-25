@@ -1,4 +1,4 @@
-from typing import Union
+# from typing import Union
 from fastapi import FastAPI
 from mangum import Mangum
 # from starlette.middleware.sessions import SessionMiddleware
