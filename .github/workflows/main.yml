@@ -60,15 +60,15 @@ jobs:
       - name: Create archive of dependencies
         run: |
           cd ./venv/lib/python3.9/site-packages
-          zip -r9 ../../../../api.zip .
+          zip -r9 ../../../../api2.zip .
       - name: Add API files to Zip file
         # Zips the whole src folder and its content. main.py must outside at root level
-        run: zip -rv api.zip main.py && zip -ur api.zip src
+        run: zip -rv api2.zip main.py && zip -ur api2.zip src
       - name: Upload zip file artifact
         uses: actions/upload-artifact@v2
         with:
-          name: api
-          path: api.zip
+          name: api2
+          path: api2.zip
 
   CD:
     runs-on: ubuntu-latest
@@ -83,18 +83,18 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
-      - name: Download Lambda api.zip
+      - name: Download Lambda api2.zip
         uses: actions/download-artifact@v2
         with:
-          name: api
+          name: api2
       - name: Upload to S3
-        run: aws s3 cp api.zip s3://hololingo-zip/api.zip
+        run: aws s3 cp api2.zip s3://hololingo-zip/api2.zip
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
       - name: Deploy new Lambda
-        run: aws lambda update-function-code --function-name hololingo-lambda --s3-bucket hololingo-zip --s3-key api.zip
+        run: aws lambda update-function-code --function-name hololingo-lambda2 --s3-bucket hololingo-zip --s3-key api2.zip
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
