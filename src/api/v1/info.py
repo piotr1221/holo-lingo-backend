@@ -9,8 +9,8 @@ async def index():
         'api_version': 'v1'
     }
 
-@info_router.get('/info')
-async def info():
-    return {
-        'app_name': settings.app_name
-    }
+# @info_router.get('/info')
+# async def info():
+#     return {
+#         'app_name': settings.app_name
+#     }
