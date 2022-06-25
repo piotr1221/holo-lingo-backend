@@ -1,3 +1,4 @@
+import bson
 from src.api.v1.contracts.lesson import LessonPost
 from src.core.schemas.Lessons import Lesson
 from fastapi import APIRouter
@@ -9,7 +10,15 @@ lessons_router = APIRouter()
 
 @lessons_router.get('/lessons/search/{term}')
 def search_lesson(term: str):
-    return json.loads(Lesson.objects(title__icontains=term).to_json())
+
+    if not term:
+        return {
+            "message": "Search term can not be empty"
+        }
+
+    lessons_found = Lesson.objects(title__icontains=term)
+
+    return json.loads(lessons_found.to_json())
 
 
 @lessons_router.get('/lessons')
@@ -19,7 +28,19 @@ def get_lessons():
 
 @lessons_router.get('/lessons/{lesson_id}')
 def get_lesson_by_id(lesson_id: str):
-    return json.loads(Lesson.objects(id=lesson_id).first().to_json())
+    try:
+        lesson_found = Lesson.objects(id=lesson_id).first()
+    except:
+        return {
+            "message": f"{lesson_id} is not a valid id"
+        }
+
+    if not lesson_found:
+        return {
+            "message": f"Lesson with id {lesson_id} not found"
+        }
+
+    return json.loads(lesson_found.to_json())
 
 
 @lessons_router.post('/lessons/create')
