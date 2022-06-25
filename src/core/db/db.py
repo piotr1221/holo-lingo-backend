@@ -9,6 +9,5 @@ def init_database():
         '?authSource=admin'
         '&connectTimeoutMS=60000'
     ))
-
 def shutdown_database():
     disconnect()
