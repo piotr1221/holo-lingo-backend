@@ -22,7 +22,11 @@ async def register_via_email(user: ClassicUserPost):
 
 @auth_router.post('/login/email')
 async def login_via_email(user:ClassicLoginUser):
-    target = AppUser.objects(email=user.email)
+    target = AppUser.objects.get(email=user.email)
+    if target is None: 
+        return JSONResponse({
+            'message': 'user not found'
+        }, status_code=404)
     result = target.val_password(user.password)
     if result:
         return JSONResponse({
