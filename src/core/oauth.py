@@ -7,6 +7,6 @@ google = oauth.register(
     client_secret="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",
     server_metadata_url='https://accounts.google.com/.well-known/openid-configuration',
     client_kwargs={
-        'scope': 'openid email profile'
+        'scope': 'openid profile email'
     }
 )
