@@ -10,3 +10,7 @@ class ClassicUserPost(BaseModel):
 class ClassicLoginUser(BaseModel):
     email: str
     password: str
+    
+class ModifyUserPost(BaseModel):
+    id: str
+    name: str

@@ -1,8 +1,7 @@
 import email
-from fastapi import APIRouter
-from src.core.settings import settings
+from fastapi import APIRouter, Body
 from src.core.schemas.AppUser import AppUser
-from src.api.v1.contracts.auth import ClassicLoginUser, ClassicUserPost
+from src.api.v1.contracts.auth import ClassicLoginUser, ClassicUserPost,ModifyUserPost
 from starlette.requests import Request
 from starlette.responses import JSONResponse
 from starlette.responses import RedirectResponse
@@ -12,7 +11,7 @@ from operator import attrgetter
 import json
 import requests
 
-auth_router =APIRouter(prefix="/v1")
+auth_router = APIRouter(prefix="/v1")
 
 @auth_router.post('/register/email')
 async def register_via_email(user: ClassicUserPost):
@@ -48,6 +47,19 @@ async def login_via_email(user:ClassicLoginUser):
 @auth_router.get('/user')
 def get_users():
     return json.loads(AppUser.objects().to_json())
+
+@auth_router.get('/user/info')
+def get_user(payload: dict=Body(...)):
+    user_id = payload["id"]
+    return json.loads(AppUser.objects(id=user_id).first().to_json())
+
+@auth_router.patch('/user/edit')
+def update_users(user: ModifyUserPost):
+    modified_user = AppUser.objects(id=user.id).first()
+    modified_user.name = user.name
+    modified_user.save()
+    user_json = json.loads(modified_user.to_json())
+    return user_json
 
 @auth_router.get('/login/google')
 async def login_via_google(request: Request):
