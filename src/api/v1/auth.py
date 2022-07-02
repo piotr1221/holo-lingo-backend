@@ -18,7 +18,13 @@ auth_router =APIRouter(prefix="/v1")
 async def register_via_email(user: ClassicUserPost):
     new_user = AppUser(name=user.name, password=user.password, issuer="localhost", email=user.email)
     new_user.save()
-    return attrgetter('name','email', 'issuer', 'date_created')(new_user)
+
+    return JSONResponse({
+        "name": new_user.name,
+        "email": new_user.email,
+        "issuer": new_user.issuer,
+        "date_created": new_user.date_created.isoformat()
+    }, status_code=201)
 
 @auth_router.post('/login/email')
 async def login_via_email(user:ClassicLoginUser):
@@ -27,6 +33,7 @@ async def login_via_email(user:ClassicLoginUser):
         return JSONResponse({
             'message': 'user not found'
         }, status_code=404)
+        
     result = target.val_password(user.password)
     if result:
         return JSONResponse({
