@@ -1,17 +1,14 @@
-import bson
 from src.api.v1.contracts.lesson import LessonPost
 from src.core.schemas.Lessons import Lesson
 from fastapi import APIRouter
-from src.core.settings import settings
 import json
 
-lessons_router = APIRouter()
+lessons_router = APIRouter(prefix="/v1")
 
-
-@lessons_router.get('/lessons/search/{term}')
+@lessons_router.get('/lessons/search')
 def search_lesson(term: str):
 
-    if not term:
+    if term is None:
         return {
             "message": "Search term can not be empty"
         }
