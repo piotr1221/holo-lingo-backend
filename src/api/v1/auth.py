@@ -2,7 +2,7 @@ import email
 from fastapi import APIRouter
 from src.core.settings import settings
 from src.core.schemas.AppUser import AppUser
-from src.api.v1.contracts.auth import ClassicUserPost
+from src.api.v1.contracts.auth import ClassicLoginUser, ClassicUserPost
 from starlette.requests import Request
 from starlette.responses import JSONResponse
 from starlette.responses import RedirectResponse
@@ -14,11 +14,25 @@ import requests
 
 auth_router =APIRouter(prefix="/v1")
 
-@auth_router.post('/login/email')
-async def login_via_email(user: ClassicUserPost):
+@auth_router.post('/register/email')
+async def register_via_email(user: ClassicUserPost):
     new_user = AppUser(name=user.name, password=user.password, issuer="localhost", email=user.email)
     new_user.save()
     return attrgetter('name','email', 'issuer', 'date_created')(new_user)
+
+@auth_router.post('/login/email')
+async def login_via_email(user:ClassicLoginUser):
+    target = AppUser.objects(email=user.email)
+    result = target.val_password(user.password)
+    if result:
+        return JSONResponse({
+            'message': 'user authenticated'
+        },status_code=200)
+    else:
+        return JSONResponse({
+            'message': 'user no authenticated'
+        }, status_code=401)
+
 
 @auth_router.get('/user')
 def get_users():
