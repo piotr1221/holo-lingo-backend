@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from mangum import Mangum
 from starlette.middleware.sessions import SessionMiddleware
 
-
+from src.core.settings import settings
 from src.core.db.db import init_database, shutdown_database
 from src.api.v1.auth import auth_router
 from src.api.v1.info import info_router
@@ -16,9 +16,6 @@ app.add_middleware(SessionMiddleware, secret_key="some-random", https_only=True)
 app.include_router(auth_router)
 app.include_router(info_router)
 app.include_router(lessons_router)
-
-
-
 
 @app.on_event("startup")
 async def init_config():

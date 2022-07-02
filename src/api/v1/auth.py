@@ -1,5 +1,4 @@
-from fastapi import APIRouter, Body
-from src.core.settings import settings
+from fastapi import APIRouter
 from src.core.schemas.AppUser import AppUser
 from src.api.v1.contracts.auth import ClassicUserPost, ModifyUserPost
 from starlette.requests import Request
@@ -9,7 +8,7 @@ from operator import attrgetter
 import json
 
 
-auth_router =APIRouter(prefix="/v1")
+auth_router = APIRouter(prefix="/v1")
 
 @auth_router.post('/login/email')
 async def login_via_email(user: ClassicUserPost):
@@ -38,7 +37,6 @@ def update_users(user: ModifyUserPost):
 async def login_via_google(request: Request):
     redirect_uri = request.url_for('auth_via_google')
     return await oauth.google.authorize_redirect(request, redirect_uri)
-
 
 @auth_router.get('/auth/google')
 async def auth_via_google(request: Request):
