@@ -5,14 +5,12 @@ import json
 
 lessons_router = APIRouter(prefix="/v1")
 
-@lessons_router.get('/lessons/search')
+@lessons_router.get('/lessons/search/{term}')
 def search_lesson(term: str):
-
     if term is None:
         return {
             "message": "Search term can not be empty"
         }
-
     lessons_found = Lesson.objects(title__icontains=term)
 
     return json.loads(lessons_found.to_json())
