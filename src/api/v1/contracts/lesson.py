@@ -8,3 +8,9 @@ class LessonPost(BaseModel):
     description: str
     example_video: str
     category_name: str
+
+class GradeDTO(BaseModel):
+    user_id: str
+    lesson_id: str
+    grade: float
+    completed:bool
