@@ -14,3 +14,4 @@ class ClassicLoginUser(BaseModel):
 class ModifyUserPost(BaseModel):
     id: str
     name: str
+    email: str

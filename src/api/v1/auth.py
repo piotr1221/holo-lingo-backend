@@ -36,6 +36,7 @@ async def login_via_email(user:ClassicLoginUser):
     result = target.val_password(user.password)
     if result:
         return JSONResponse({
+                'id':str(target.id),
                 'name':target.name,
                 'email':target.email,
                 'issuer':target.issuer,
